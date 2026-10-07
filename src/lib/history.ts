@@ -29,7 +29,10 @@ export function readHistory(storage: Pick<Storage, 'getItem'>): {
           ) &&
           (s.input.pingOutput === undefined ||
             (typeof s.input.pingOutput === 'string' &&
-              s.input.pingOutput.length <= 20000)),
+              s.input.pingOutput.length <= 20000)) &&
+          (s.input.dnsOutput === undefined ||
+            (typeof s.input.dnsOutput === 'string' &&
+              s.input.dnsOutput.length <= 20000)),
       )
     )
       throw Error('Invalid history');
@@ -45,6 +48,9 @@ export function readHistory(storage: Pick<Storage, 'getItem'>): {
           notes: s.input.notes,
           ...(s.input.pingOutput !== undefined
             ? { pingOutput: s.input.pingOutput }
+            : {}),
+          ...(s.input.dnsOutput !== undefined
+            ? { dnsOutput: s.input.dnsOutput }
             : {}),
         },
       })),

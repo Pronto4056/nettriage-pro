@@ -58,3 +58,11 @@ Expected: inconsistent samples produce insufficient-evidence findings and suppre
 Actual: the initial parser accepted those contradictions. Cause: validation checked Windows heading/count arithmetic and only the numeric average; it did not compare Unix headings, timeout totals or latency tuple ordering.
 
 Fix: compare Unix statistics headings with the target or original hostname, bound Windows observed outcomes by packet totals, and enforce minimum ≤ average ≤ maximum. Five failing regression cases in ping.test.ts then passed; full suite 93/93.
+
+# DNS attribution corrections — October 6, 2026
+
+Reproduction: append an nslookup failure to a successful dig response, or paste a resolver Server/Address block after an nslookup Name/Address answer.
+
+Expected: reject mixed or reversed output without claiming a successful DNS answer. Actual: initial dig validation ignored the foreign failure; nslookup scanning restarted address collection inside a reversed resolver block. Cause: incomplete format-boundary validation.
+
+Fix: reject nslookup failure markers in dig output and resolver blocks after answer blocks. Two regression tests failed before the fixes and passed afterward; independent review rechecked them. Full suite 131/131. Indented alias metadata and actual dig-header recognition also gained regression coverage.

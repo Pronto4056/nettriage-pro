@@ -12,7 +12,9 @@ export function Findings({ result }: { result: Result }) {
           <h2 id="results-title">
             {warnings
               ? 'Findings need review'
-              : result.findings.some((f) => f.id.startsWith('ping-'))
+              : result.findings.some(
+                    (f) => f.id.startsWith('ping-') || f.id.startsWith('dns-'),
+                  )
                 ? 'Evidence analyzed'
                 : result.network
                   ? 'Calculations complete'

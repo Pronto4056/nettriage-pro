@@ -6,6 +6,7 @@ import { Findings } from './components/Findings';
 import { ConfigurationMap } from './components/ConfigurationMap';
 import { ConfirmClearHistory } from './components/ConfirmClearHistory';
 import { PingInput } from './components/PingInput';
+import { DnsInput } from './components/DnsInput';
 import { Guides, CommandReference } from './pages/Reference';
 const blank: Input = { ip: '', mask: '', gateway: '', dns: '', notes: '' };
 const example: Input = {
@@ -73,7 +74,7 @@ export function App() {
       return;
     }
     if (Object.values(input).every((v) => !v.trim())) {
-      setStatus('Add configuration to save a session.');
+      setStatus('Add configuration or command evidence to save a session.');
       return;
     }
     if (initial.error && storageError) {
@@ -204,8 +205,8 @@ export function App() {
                 </article>
                 <article className="panel">
                   <span>Current milestone</span>
-                  <strong className="text-stat">Ping evidence</strong>
-                  <small>DNS and traceroute parsing are next</small>
+                  <strong className="text-stat">DNS evidence</strong>
+                  <small>Traceroute parsing is next</small>
                 </article>
               </div>
               <div className="section-head">
@@ -247,8 +248,8 @@ export function App() {
               <span className="eyebrow">01 / CONFIGURATION &amp; EVIDENCE</span>
               <h1>Build a clearer picture.</h1>
               <p className="intro">
-                Enter interface configuration, pasted ping evidence, or both.
-                Blank fields remain unknown.
+                Enter interface configuration, pasted ping or DNS evidence, or
+                both. Blank fields remain unknown.
               </p>
               <div className="triage-layout">
                 <form
@@ -326,6 +327,11 @@ export function App() {
                     onChange={(value) => edit('pingOutput', value)}
                     error={result?.errors.pingOutput}
                   />
+                  <DnsInput
+                    value={input.dnsOutput ?? ''}
+                    onChange={(value) => edit('dnsOutput', value)}
+                    error={result?.errors.dnsOutput}
+                  />
                   <div className="actions">
                     <button className="primary" type="submit">
                       Analyze evidence ↗
@@ -354,8 +360,8 @@ export function App() {
                   </p>
                   <hr />
                   <p>
-                    This build checks IPv4 configuration and pasted English IPv4
-                    ping samples. DNS and traceroute parsing will follow.
+                    This build checks IPv4 configuration and selected English
+                    ping and DNS lookup samples. Traceroute parsing will follow.
                   </p>
                   <button onClick={() => navigate('Commands')}>
                     Find a useful command →

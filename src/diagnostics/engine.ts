@@ -7,6 +7,8 @@ import {
 } from '../network/ipv4';
 import { pingFindings } from './pingRules';
 import { PING_LIMIT } from '../evidence/ping';
+import { DNS_LIMIT } from '../evidence/dns';
+import { dnsFindings } from './dnsRules';
 export type Confidence =
   'Confirmed' | 'Likely' | 'Possible' | 'Insufficient Evidence';
 export type Severity = 'info' | 'warning' | 'error';
@@ -26,6 +28,7 @@ export interface Input {
   dns: string;
   notes: string;
   pingOutput?: string;
+  dnsOutput?: string;
 }
 export interface Result {
   errors: Partial<Record<keyof Input, string>>;
@@ -41,11 +44,14 @@ export function analyze(raw: Input): Result {
     dns: raw.dns.trim(),
     notes: raw.notes.trim(),
     pingOutput: (raw.pingOutput ?? '').trim(),
+    dnsOutput: (raw.dnsOutput ?? '').trim(),
   };
   const result: Result = { errors: {}, findings: [] };
   if ((raw.pingOutput?.length ?? 0) > PING_LIMIT)
     result.errors.pingOutput =
       'Paste at most 20,000 characters of ping output.';
+  if ((raw.dnsOutput?.length ?? 0) > DNS_LIMIT)
+    result.errors.dnsOutput = 'Paste at most 20,000 characters of DNS output.';
   const add = (
     id: string,
     title: string,
@@ -206,15 +212,20 @@ export function analyze(raw: Input): Result {
       'Check the configured resolver and perform a lookup against it.',
     );
   result.findings.push(...pingFindings(input.pingOutput!, input.gateway));
+  result.findings.push(
+    ...dnsFindings(input.dnsOutput!, input.dns, input.pingOutput),
+  );
   add(
     'missing-evidence',
     'Broader connectivity remains unverified',
     'info',
     'Insufficient Evidence',
-    input.pingOutput
-      ? 'Pasted ping evidence was evaluated; DNS and application evidence were not.'
-      : 'No command-output analysis has been performed.',
-    'Configuration and ICMP samples cannot establish complete internet, DNS or application health. Pasted evidence is user-supplied and may come from different interfaces or times.',
+    input.dnsOutput
+      ? 'Pasted DNS evidence was evaluated; application and traceroute evidence were not.'
+      : input.pingOutput
+        ? 'Pasted ping evidence was evaluated; DNS and application evidence were not.'
+        : 'No command-output analysis has been performed.',
+    'Configuration, ICMP and DNS samples cannot establish complete internet or application health. Pasted evidence is user-supplied and may come from different interfaces or times.',
     'Compare gateway and numeric destination probes, then collect DNS lookup and intended-service evidence.',
   );
   return result;

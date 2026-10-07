@@ -1,5 +1,11 @@
 # Development progress
 
+## October 6, 2026 — DNS evidence milestone
+
+Added selected English nslookup/dig IN A parsing and modular findings. Resolver/answer separation, canonical-name chains, missing-address answers, distinct DNS failure/timeout statuses, resolver discrepancies and cautious ping comparisons are now available. Optional DNS text survives local-history reopening; older sessions retain compatibility. Three labeled DNS fixtures are available in the form.
+
+131 tests, type checking and build pass. Browser checks covered simulations, unsupported output, stale results, reload/reopen, existing-history preservation and mobile layout. Independent review found two malformed-input attribution bugs, fixed after failing regression tests and independently rechecked. See dns-verification.md. Traceroute parsing is next; full v1.0 release QA remains outstanding.
+
 ## October 6, 2026 — Ping evidence milestone
 
 Implemented the next incremental evidence flow: English IPv4 ping parsing, cautious modular findings, optional pasted-output form field, three labeled synthetic scenarios, and backward-compatible local-history retention/reopening. Existing configuration checks and approved Redline design remain available. DNS and traceroute parsing are next; this milestone is not v1.0 completion.
