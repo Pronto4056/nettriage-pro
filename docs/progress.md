@@ -1,5 +1,9 @@
 # Development progress
 
+## October 7, 2026 — Local release package
+
+Verified frozen-lockfile installation, 187 tests, type/build and formatting in a clean local clone. Fixed missing Git line-ending policy after the first Windows clone failed formatting; second fresh clone passes. Updated README accuracy, dated historical screenshots, release notes and manual browser checklist. Prepared source and verified static-build archives with checksums outside the repository. No license, publication or deployment performed. Browser automation remains blocked; final visual/native-control review is pending.
+
 ## October 7, 2026 — Release QA resumed
 
 Completed combined scenario and virtual DOM workflow coverage; 187 tests, type checking and build pass. Fixed first-error focus, command-only history labels, invalid configuration suppressing valid evidence, and rejected oversized fields still being parsed after trimming. Retained prior browser/review evidence to minimize credits. Fresh browser access was rejected by tool policy; remaining verification is documented in release-qa-report.md. No release or deployment performed.

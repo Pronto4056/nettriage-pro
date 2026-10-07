@@ -21,4 +21,6 @@ Independent review on October 6 found the mixed-invalid-input gap and subsequent
 
 ## Release position
 
+October 7 follow-up: clean-checkout installation, tests, type/build and formatting now pass. A Windows line-ending defect was fixed and verified in a fresh clone. Source/static review archives, release notes and manual checklist are prepared. See release-package-verification.md. Fresh browser checks remain pending.
+
 The selected English IPv4 configuration/ping/DNS/trace scope can be reviewed as a local release candidate. Final v1.0 readiness is not claimed: fresh browser checks, clean-clone verification and final packaging remain. Broader browser/accessibility coverage and unsupported formats retain documented limits. License and hosting remain user choices.
