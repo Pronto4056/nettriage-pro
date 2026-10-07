@@ -22,3 +22,5 @@ No live probes, backend, telemetry or automatic command execution. Selected Engl
 Fresh October 7 desktop/mobile, keyboard, clipboard, evidence and history checks pass; see browser-release-verification.md and the new screenshots. Clear-history confirmation in an isolated profile remains Blocked: the API offers no isolated-profile creation. Use manual-release-checklist.md for that final native check. Existing October 6 screenshots remain dated historical evidence.
 
 Licensing, public publication and deployment are reserved for user approval. Source and static build archives are review artifacts; no remote repository, PR or hosting change is implied.
+
+Final check update: the user reported the isolated-profile clear test working. Required verification is complete for the selected scope; final designation, licensing and publication await approval. See v1-readiness-summary.md.

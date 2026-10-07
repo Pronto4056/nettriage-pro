@@ -25,3 +25,5 @@ Follow-up: browser access to the running HTTP tab became available. Fresh checks
 Browser automation was denied on October 7. No bypass or alternate browser workaround is used. Fresh visual, clipboard and native-history-control checks remain pending, with manual-release-checklist.md providing the fallback. Prior stage reports retain completed desktop/mobile/focus evidence; virtual DOM tests do not substitute for native browser layout or dialog behavior.
 
 No new logic defect was discovered during this pass. That conclusion is bounded by the automated scenarios and packaging checks; it is not an assertion that the app has no possible issues or that final v1.0 is complete.
+
+Final manual check: isolated-profile clear confirmation/focus/reload and original-session preservation passed by user report. No product code changed; build/test evidence remains applicable.

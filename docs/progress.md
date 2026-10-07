@@ -1,5 +1,9 @@
 # Development progress
 
+## October 7, 2026 — Final manual check reported passing
+
+User confirmed the requested private-window clear-history checks working. Recorded as manual user-reported evidence, not agent-observed automation. Verification gate complete for selected English IPv4 scope; prepared final readiness summary and refreshed source documentation package. Reused completed 187-test clean-checkout/build evidence because code is unchanged. License, version designation, publishing and deployment remain approval choices.
+
 ## October 7, 2026 — Remaining browser simulations
 
 Supported access to the running HTTP preview became available. Desktop/mobile pages, focus/keyboard, all 15 command copies, nine built-in examples, combined/invalid/malformed/conflicting evidence, stale results and history reload/reopen/delete pass. Ten marked synthetic records removed; original two sessions exactly preserved. Fresh screenshots and per-check report added. No product code issue found; reused 187-test clean-checkout evidence. Isolated-profile clear confirmation remains Blocked because browser API lacks that capability. Release package refreshed; license/publishing/deployment untouched.
