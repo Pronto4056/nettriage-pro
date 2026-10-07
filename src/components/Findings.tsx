@@ -1,7 +1,7 @@
 import type { Result } from '../diagnostics/engine';
 import { TraceTable } from './TraceTable';
 export function Findings({ result }: { result: Result }) {
-  if (Object.keys(result.errors).length) return null;
+  if (Object.keys(result.errors).length && !result.findings.length) return null;
   const warnings = result.findings.filter((f) => f.severity !== 'info').length;
   return (
     <section aria-labelledby="results-title" className="results">

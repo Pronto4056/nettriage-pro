@@ -92,7 +92,48 @@ export function analyze(raw: Input): Result {
       'An IPv4 address is needed for subnet and gateway checks.';
   if (input.ip && !input.mask)
     result.errors.mask = 'Enter a mask or CIDR prefix to calculate the subnet.';
-  if (Object.keys(result.errors).length) return result;
+  function appendCommandEvidence() {
+    if (!result.errors.pingOutput)
+      result.findings.push(
+        ...pingFindings(
+          input.pingOutput!,
+          result.errors.gateway ? '' : input.gateway,
+        ),
+      );
+    if (!result.errors.dnsOutput)
+      result.findings.push(
+        ...dnsFindings(
+          input.dnsOutput!,
+          result.errors.dns ? '' : input.dns,
+          result.errors.pingOutput ? '' : input.pingOutput,
+        ),
+      );
+    if (input.traceOutput && !result.errors.traceOutput) {
+      result.trace = parseTrace(input.traceOutput);
+      result.findings.push(...traceFindings(input.traceOutput));
+    }
+  }
+  if (Object.keys(result.errors).length) {
+    appendCommandEvidence();
+    const configurationError = ['ip', 'mask', 'gateway', 'dns'].some(
+      (field) => result.errors[field as keyof Input],
+    );
+    if (result.findings.length)
+      add(
+        configurationError ? 'configuration-invalid' : 'input-invalid',
+        configurationError
+          ? 'Configuration could not be evaluated'
+          : 'Some supplied evidence could not be evaluated',
+        'warning',
+        'Insufficient Evidence',
+        configurationError
+          ? 'One or more configuration fields failed validation.'
+          : 'One or more command-output fields failed validation.',
+        'Only accepted command observations are interpreted separately; subnet and configuration relationships were not calculated. This session cannot be saved until the marked fields are corrected.',
+        'Correct or clear the marked fields before saving this session.',
+      );
+    return result;
+  }
   if (input.ip && prefix !== null) {
     result.network = subnet(input.ip, prefix);
     result.category = classify(input.ip);
@@ -219,14 +260,7 @@ export function analyze(raw: Input): Result {
       'This is not an ordinary unicast resolver address. Loopback resolvers, when supplied, can be intentional.',
       'Check the configured resolver and perform a lookup against it.',
     );
-  result.findings.push(...pingFindings(input.pingOutput!, input.gateway));
-  result.findings.push(
-    ...dnsFindings(input.dnsOutput!, input.dns, input.pingOutput),
-  );
-  if (input.traceOutput) {
-    result.trace = parseTrace(input.traceOutput);
-    result.findings.push(...traceFindings(input.traceOutput));
-  }
+  appendCommandEvidence();
   add(
     'missing-evidence',
     'Broader connectivity remains unverified',

@@ -25,6 +25,14 @@ const pages = [
   'Commands',
 ] as const;
 type Page = (typeof pages)[number];
+function sessionLabel(input: Input) {
+  return (
+    input.ip ||
+    (input.pingOutput || input.dnsOutput || input.traceOutput
+      ? 'Command evidence'
+      : 'Partial configuration')
+  );
+}
 export function App() {
   const [page, setPage] = useState<Page>('Dashboard');
   const [input, setInput] = useState<Input>(blank);
@@ -72,6 +80,20 @@ export function App() {
     setResult(next);
     if (Object.keys(next.errors).length) {
       setStatus('Review the marked fields. No session was saved.');
+      const first = (
+        [
+          'ip',
+          'mask',
+          'gateway',
+          'dns',
+          'pingOutput',
+          'dnsOutput',
+          'traceOutput',
+        ] as const
+      ).find((field) => next.errors[field]);
+      requestAnimationFrame(() => {
+        if (first) document.getElementById(first)?.focus();
+      });
       return;
     }
     if (Object.values(input).every((v) => !v.trim())) {
@@ -221,7 +243,7 @@ export function App() {
                   {sessions.slice(0, 3).map((s) => (
                     <button key={s.id} onClick={() => open(s)}>
                       <span>
-                        <strong>{s.input.ip || 'Partial configuration'}</strong>
+                        <strong>{sessionLabel(s.input)}</strong>
                         <small>{new Date(s.created).toLocaleString()}</small>
                       </span>
                       <span>Open →</span>
@@ -413,7 +435,7 @@ export function App() {
                       <button onClick={() => open(s)}>
                         <span>
                           <strong>
-                            {s.input.ip || 'Partial configuration'}{' '}
+                            {sessionLabel(s.input)}{' '}
                             <span className="muted">{s.input.mask}</span>
                           </strong>
                           <small>{new Date(s.created).toLocaleString()}</small>

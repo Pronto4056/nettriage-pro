@@ -89,7 +89,7 @@ Evidence parsing and modular ping/DNS/traceroute rules feed findings. The next s
 
 Run `pnpm test` or `npm test`. The initial suite covers malformed IPs/masks, unsigned addressing, prefix boundaries, host ranges, special-purpose categories, APIPA, gateway membership across octet boundaries, empty evidence, invalid inputs, storage corruption/denial, persistence round-trips, the history cap, and misleading empty-state prevention.
 
-The current suite has 167 passing checks. See [traceroute verification](docs/trace-verification.md), [DNS verification](docs/dns-verification.md), [ping verification](docs/ping-verification.md), [foundation verification](docs/verification.md), [Redline implementation verification](docs/redline-verification.md), [command walkthrough](docs/command-verification.md), [QA matrix](docs/test-matrix.md), and [bug log](docs/bugs.md). Passing unit tests do not establish real-world network reliability or full v1.0 coverage.
+The current suite has 187 passing checks. See [traceroute verification](docs/trace-verification.md), [DNS verification](docs/dns-verification.md), [ping verification](docs/ping-verification.md), [foundation verification](docs/verification.md), [Redline implementation verification](docs/redline-verification.md), [command walkthrough](docs/command-verification.md), [QA matrix](docs/test-matrix.md), and [bug log](docs/bugs.md). Passing unit tests do not establish real-world network reliability or full v1.0 coverage.
 
 ## Limitations and privacy
 

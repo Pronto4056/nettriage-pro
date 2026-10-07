@@ -1,5 +1,9 @@
 # Development progress
 
+## October 7, 2026 — Release QA resumed
+
+Completed combined scenario and virtual DOM workflow coverage; 187 tests, type checking and build pass. Fixed first-error focus, command-only history labels, invalid configuration suppressing valid evidence, and rejected oversized fields still being parsed after trimming. Retained prior browser/review evidence to minimize credits. Fresh browser access was rejected by tool policy; remaining verification is documented in release-qa-report.md. No release or deployment performed.
+
 ## October 6, 2026 — Traceroute evidence milestone
 
 Implemented selected English IPv4 tracert/traceroute parsing, cautious modular findings, semantic hop table and three labeled simulations. Optional trace text persists and reopens alongside existing evidence. Silent hops and missing destinations remain inconclusive about router/host failure. Mobile table scrolls within its own region for readable headings.

@@ -1,27 +1,26 @@
 # Diagnostic QA matrix
 
-Status describes the foundation build only; planned tests are not claimed as passing.
+Updated October 7, 2026. Automated suite: 187 checks in 12 files. Browser evidence refers to completed October 6 checks; today's browser recheck was blocked by tool policy. Fixtures do not establish real network health or platform execution.
 
-| Scenario                                          | Current check                                         | Status                                                    |
-| ------------------------------------------------- | ----------------------------------------------------- | --------------------------------------------------------- |
-| Valid configuration                               | Subnet arithmetic; connectivity remains unknown       | Unit verified                                             |
-| APIPA                                             | Link-local finding without asserting DHCP failure     | Unit verified                                             |
-| Malformed IPv4                                    | Strict octet validation and inline error              | Unit and browser verified                                 |
-| Invalid mask / CIDR                               | Reject non-contiguous masks and out-of-range prefixes | Unit verified                                             |
-| /0, /24, /30, /31, /32                            | Host counts; /24 range; /31 first endpoint            | Unit verified                                             |
-| Gateway outside subnet                            | Calculated membership and cautious caveat             | Unit and browser verified                                 |
-| Gateway inside /16 across third octet             | No false mismatch finding                             | Unit verified                                             |
-| Empty fields                                      | Insufficient evidence, no history save                | Unit and browser verified                                 |
-| Partial forms                                     | Dependency validation; no invented connectivity       | Initial engine path implemented; expand tests             |
-| Corrupt / denied storage                          | Explicit error; history not silently overwritten      | Unit verified                                             |
-| Session save / reopen / reload / delete           | Persistence and recomputation                         | Browser verified, including deletion surviving reload     |
-| Healthy connectivity, DNS success                 | Command parsers and target correlation                | Planned                                                   |
-| Unreachable gateway / DNS server                  | Failed probe ≠ offline or service failure             | Planned                                                   |
-| IP works but DNS fails                            | DNS-specific likely cause with linked evidence        | Planned                                                   |
-| Complete failure                                  | Sampled failure with uncertainty                      | Planned                                                   |
-| Partial packet loss                               | Sample scope and percentage                           | Planned                                                   |
-| Destination unreachable                           | Sender/message interpretation                         | Planned                                                   |
-| Routing failure / intermediate traceroute timeout | No failed-router claim from timeout alone             | Planned                                                   |
-| Contradictory evidence                            | Mark conflict and request fresh samples               | Planned                                                   |
-| Malformed pasted output                           | Unknown-format result without crash                   | Planned                                                   |
-| Desktop/mobile                                    | Dashboard/form/reference navigation                   | Initial browser inspection; full accessibility QA pending |
+| Scenario                                 | Verified behavior                                         | Evidence                                    |
+| ---------------------------------------- | --------------------------------------------------------- | ------------------------------------------- |
+| IPv4, masks, /0–/32                      | Strict parsing and unsigned calculations                  | network.test.ts                             |
+| APIPA / special addresses / gateway      | Categories, mathematical membership and caveats           | network.test.ts; prior browser QA           |
+| Successful combined samples              | Observations with broader health unknown                  | releaseScenarios.test.ts; October 6 browser |
+| Gateway / complete sampled failure       | No offline/router-failure conclusion                      | releaseScenarios.test.ts                    |
+| Numeric replies with DNS failure         | Possible comparison with time/interface caveats           | dns.test.ts; releaseScenarios.test.ts       |
+| Loss / latency / unreachable             | Validated sample metrics; Windows errors not echo replies | ping.test.ts                                |
+| Silent trace hops                        | Stars not packet loss or failed routers                   | trace.test.ts; prior browser QA             |
+| Contradictory / malformed output         | Unsupported facts suppressed; explicit warnings           | parser tests                                |
+| Notes disagree with samples              | Notes remain context                                      | releaseScenarios.test.ts                    |
+| Invalid config plus valid commands       | Accepted observations visible; no save                    | scenario/workflow tests; October 6 browser  |
+| Rejected oversized evidence              | Excluded despite trimming; other fields usable            | releaseScenarios.test.ts                    |
+| Empty / invalid form                     | No save; first-error focus                                | workflows.test.tsx; October 6 browser       |
+| Save / reopen / remount / reset / delete | Evidence retained; stale results cleared                  | workflows.test.tsx; stage browser reports   |
+| Corrupt / denied storage                 | Preserve unreadable history; failed deletes retained      | history.test.ts; workflows.test.tsx         |
+| Clipboard success / rejection            | Intended payload and manual fallback                      | workflows.test.tsx; prior browser copies    |
+| Clear-history dialog                     | Cancel/Escape preserves records and restores focus        | prior Redline QA; October 6 recheck         |
+| Hostile pasted text                      | Unsupported data through text boundaries                  | releaseScenarios.test.ts                    |
+| Desktop / mobile / keyboard              | Stage checks; 320px document without overflow             | stage reports; October 6 recheck            |
+
+Remaining: fresh browser/clipboard recheck, broader browser/accessibility coverage, clean-clone setup verification and final release packaging. Native dialog/layout behavior is not established by jsdom. No final v1.0 declaration yet.
