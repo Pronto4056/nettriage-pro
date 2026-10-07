@@ -3,6 +3,8 @@ import type { FormEvent } from 'react';
 import { analyze, type Input, type Result } from './diagnostics/engine';
 import { readHistory, persistHistory, type Session } from './lib/history';
 import { Findings } from './components/Findings';
+import { ConfigurationMap } from './components/ConfigurationMap';
+import { ConfirmClearHistory } from './components/ConfirmClearHistory';
 import { Guides, CommandReference } from './pages/Reference';
 const blank: Input = { ip: '', mask: '', gateway: '', dns: '', notes: '' };
 const example: Input = {
@@ -37,6 +39,14 @@ export function App() {
   const [sessions, setSessions] = useState(initial.sessions);
   const [storageError, setStorageError] = useState(initial.error);
   const [status, setStatus] = useState('');
+  const [confirmClear, setConfirmClear] = useState(false);
+  function navigate(next: Page) {
+    setPage(next);
+    requestAnimationFrame(() => {
+      document.getElementById('main')?.focus({ preventScroll: true });
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    });
+  }
   function updateHistory(next: Session[]) {
     try {
       const committed = persistHistory(window.localStorage, sessions, next);
@@ -91,7 +101,7 @@ export function App() {
     setInput(sample ? example : blank);
     setResult(undefined);
     setStatus('');
-    setPage('Network triage');
+    navigate('Network triage');
   }
   function open(session: Session) {
     setInput(session.input);
@@ -99,49 +109,40 @@ export function App() {
     setStatus(
       'Viewing a saved configuration. Connectivity remains unverified.',
     );
-    setPage('Network triage');
+    navigate('Network triage');
   }
   return (
     <div className="app">
       <a className="skip" href="#main">
         Skip to content
       </a>
-      <aside className="sidebar">
+      <header className="site-header">
         <a
           className="brand"
           href="#"
           onClick={(e) => {
             e.preventDefault();
-            setPage('Dashboard');
+            navigate('Dashboard');
           }}
         >
-          <span className="brand-mark">
-            N<span>↗</span>
-          </span>
           <span>
-            NetTriage <b>Pro</b>
-            <small>NETWORK OPERATIONS</small>
+            NETTRIAGE <b>/ PRO</b>
           </span>
         </a>
-        <span className="nav-heading">WORKSPACE</span>
         <nav aria-label="Primary">
-          {pages.map((p, i) => (
+          {pages.map((p) => (
             <button
               key={p}
               className={page === p ? 'active' : ''}
               aria-current={page === p ? 'page' : undefined}
-              onClick={() => setPage(p)}
+              onClick={() => navigate(p)}
             >
-              <span aria-hidden="true">{['◫', '⌁', '◷', '▤', '⌘'][i]}</span>
               {p}
             </button>
           ))}
         </nav>
-        <div className="sidebar-foot">
-          <span className="live-dot" />
-          Independent & local<small>Deterministic engine · v0.1</small>
-        </div>
-      </aside>
+        <span className="header-context">LOCAL / RULE-BASED</span>
+      </header>
       <div className="workspace">
         <header className="topbar">
           <span>
@@ -160,12 +161,12 @@ export function App() {
               <div className="hero">
                 <div>
                   <span className="eyebrow">
-                    NETWORK DIAGNOSTICS, WITH CONTEXT
+                    NETWORK TROUBLESHOOTING / RECONSIDERED
                   </span>
                   <h1>
-                    Less guesswork.
+                    Trace the facts.
                     <br />
-                    <em>More evidence.</em>
+                    <em>Follow the evidence.</em>
                   </h1>
                   <p className="intro">
                     Turn network configuration into clear findings.
@@ -181,26 +182,7 @@ export function App() {
                     </button>
                   </div>
                 </div>
-                <div
-                  className="network-art"
-                  aria-label="Configuration relationships: host, subnet, gateway"
-                >
-                  <div className="art-caption">CONFIGURATION MAP</div>
-                  <div className="node">
-                    HOST<span>IPv4 address</span>
-                  </div>
-                  <div className="connector">↓ prefix & mask</div>
-                  <div className="node outlined">
-                    SUBNET<span>Network boundaries</span>
-                  </div>
-                  <div className="connector">↓ membership check</div>
-                  <div className="node">
-                    GATEWAY<span>Next-hop relationship</span>
-                  </div>
-                  <small>
-                    Relationships calculated. Reachability requires evidence.
-                  </small>
-                </div>
+                <ConfigurationMap />
               </div>
               <div className="section-head">
                 <h2>Your workspace</h2>
@@ -227,7 +209,7 @@ export function App() {
               </div>
               <div className="section-head">
                 <h2>Recent activity</h2>
-                <button onClick={() => setPage('History')}>
+                <button onClick={() => navigate('History')}>
                   View history ↗
                 </button>
               </div>
@@ -369,7 +351,7 @@ export function App() {
                     This initial build checks IPv4 configuration. Pasted ping,
                     DNS, and traceroute analysis will follow.
                   </p>
-                  <button onClick={() => setPage('Commands')}>
+                  <button onClick={() => navigate('Commands')}>
                     Find a useful command →
                   </button>
                 </aside>
@@ -385,20 +367,21 @@ export function App() {
                 {sessions.length > 0 && (
                   <button
                     className="danger"
-                    onClick={() => {
-                      if (
-                        window.confirm(
-                          'Clear all saved diagnostic sessions from this browser?',
-                        )
-                      ) {
-                        if (updateHistory([])) setStatus('History cleared.');
-                      }
-                    }}
+                    onClick={() => setConfirmClear(true)}
                   >
                     Clear history
                   </button>
                 )}
               </div>
+              {confirmClear && (
+                <ConfirmClearHistory
+                  onCancel={() => setConfirmClear(false)}
+                  onConfirm={() => {
+                    if (updateHistory([])) setStatus('History cleared.');
+                    setConfirmClear(false);
+                  }}
+                />
+              )}
               <p className="intro">
                 Up to 50 configuration snapshots. Reopening recalculates
                 findings with the current engine.

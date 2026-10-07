@@ -43,7 +43,7 @@ Three interactive sketches, prepared for selection before production changes. Ex
 
 ## Decision
 
-Await the user's selection. No redesign has been applied. A mixed direction is possible, such as Redline typography with Signal's relationship inspector, but it should be chosen deliberately before implementation.
+The user selected Redline Editorial, approved a black-to-burgundy gradient refinement, and authorized implementation. The working application now uses that direction. See redline-verification.md for the delivered design and retained functionality. The three screenshots below preserve the original exploration for comparison.
 
 ## Review evidence
 

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { commandExamples } from '../data/commandWalkthrough';
 const commands = [
   [
     'Windows',
@@ -74,23 +75,66 @@ export function CommandReference() {
         Run commands in your own terminal. NetTriage never executes them or
         probes your network.
       </p>
+      <p className="walkthrough-intro">
+        All 15 entries include simulated output and interpretation. Seven
+        include actual Windows observations from October 6, 2026. These examples
+        were not executed on Linux or macOS. No commands run from this page.
+      </p>
       <p role="status">{notice}</p>
       <div className="command-list">
-        {commands.map(([os, command, meaning]) => (
-          <article className="panel command" key={command}>
-            <span className="eyebrow">{os}</span>
-            <div>
-              <code>{command}</code>
-              <button
-                onClick={() => copy(command)}
-                aria-label={`Copy ${command}`}
-              >
-                Copy
-              </button>
-            </div>
-            <p>{meaning}</p>
-          </article>
-        ))}
+        {commands.map(([os, command, meaning]) => {
+          const example = commandExamples.find(
+            (item) => item.command === command,
+          )!;
+          return (
+            <article className="panel command" key={command}>
+              <span className="eyebrow">{os}</span>
+              <div>
+                <code>{command}</code>
+                <button
+                  onClick={() => copy(command)}
+                  aria-label={`Copy ${command}`}
+                >
+                  Copy
+                </button>
+              </div>
+              <p>{meaning}</p>
+              <details className="command-example">
+                <summary>Example output &amp; interpretation</summary>
+                <div className="example-content">
+                  {example.actual && (
+                    <div className="actual-observation">
+                      <span className="eyebrow">
+                        Actual Windows observation · {example.actual.observedAt}
+                      </span>
+                      <code>{example.actual.invocation}</code>
+                      <p>{example.actual.summary}</p>
+                    </div>
+                  )}
+                  <span className="example-label">
+                    Simulated output · illustrative fixture
+                  </span>
+                  <p className="example-invocation">
+                    <b>Example invocation</b>
+                    <code>{example.invocation}</code>
+                  </p>
+                  <pre>
+                    <code>{example.output}</code>
+                  </pre>
+                  <p>
+                    <b>How to read it</b> {example.interpretation}
+                  </p>
+                  {!example.actual && (
+                    <p className="example-limit">
+                      Not executed on {os}. This fixture demonstrates output
+                      structure and interpretation only.
+                    </p>
+                  )}
+                </div>
+              </details>
+            </article>
+          );
+        })}
       </div>
     </>
   );

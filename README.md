@@ -17,8 +17,9 @@ Network troubleshooting is often reduced to guesses after one failed ping. NetTr
 - Gateway membership, host boundary, gateway/host collision, and unsuitable resolver address checks.
 - Findings with severity, confidence, evidence, meaning, and recommended next test.
 - Up to 50 saved configuration snapshots, reopening, individual deletion, and clearing history.
-- Responsive dark-neutral interface, labeled fields, keyboard focus styles, and text status indicators.
-- Troubleshooting guides and copyable Windows/Linux/macOS command references.
+- Approved Redline Editorial interface: black-to-burgundy gradient, red accents, top navigation, editorial findings, labeled fields, visible keyboard focus, and responsive layouts.
+- Selectable conceptual host/subnet/gateway explanations and an accessible clear-history confirmation.
+- Troubleshooting guides and copyable Windows/Linux/macOS command references, with 15 expandable simulated-output walkthroughs and seven dated Windows observations.
 
 ## Local setup
 
@@ -57,7 +58,10 @@ Form input → normalization → validation → IPv4 calculations
 - `src/diagnostics/engine.ts`: input/result contracts and deterministic configuration rules.
 - `src/lib/history.ts`: versioned storage validation, cap, and failure reporting.
 - `src/components/Findings.tsx`: evidence-oriented result presentation.
+- `src/components/ConfigurationMap.tsx`: conceptual relationship explanations; no live network detection.
+- `src/components/ConfirmClearHistory.tsx`: keyboard-accessible clear confirmation.
 - `src/pages/Reference.tsx`: guides and command reference.
+- `src/data/commandWalkthrough.ts`: reviewed illustrative fixtures and historical execution summaries. Regenerate with `node scripts/build-command-walkthrough.mjs` after updating the command report, then format the generated source.
 - `tests/`: mathematical, rule, persistence, and rendering regression tests.
 
 The next increment inserts evidence parsing and modular command rules before findings. The UI consumes results and does not contain networking calculations.
@@ -78,7 +82,7 @@ The next increment inserts evidence parsing and modular command rules before fin
 
 Run `pnpm test` or `npm test`. The initial suite covers malformed IPs/masks, unsigned addressing, prefix boundaries, host ranges, special-purpose categories, APIPA, gateway membership across octet boundaries, empty evidence, invalid inputs, storage corruption/denial, persistence round-trips, the history cap, and misleading empty-state prevention.
 
-See [verification evidence](docs/verification.md), [QA matrix](docs/test-matrix.md), and [bug log](docs/bugs.md). Passing unit tests do not establish real-world network reliability or full v1.0 coverage.
+The current suite has 60 passing checks. See [foundation verification](docs/verification.md), [Redline implementation verification](docs/redline-verification.md), [command walkthrough](docs/command-verification.md), [QA matrix](docs/test-matrix.md), and [bug log](docs/bugs.md). Passing unit tests do not establish real-world network reliability or full v1.0 coverage.
 
 ## Limitations and privacy
 
