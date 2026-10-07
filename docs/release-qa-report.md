@@ -13,6 +13,8 @@ Resumed the October 6 pass with focused work to minimize repeated testing/review
 
 ## Browser evidence and limits
 
+Follow-up on October 7: completed the remaining browser simulations with fresh screenshots and exact preservation of the original two records. See browser-release-verification.md. Clear-history confirmation in an isolated profile remains Blocked because that profile capability is unavailable. Earlier browser-access denial notes below are historical.
+
 October 6 real-browser checks confirmed invalid-field focus, combined evidence, partial-input findings, native Cancel/Escape focus restoration and record preservation, and 320px layout without document overflow. Earlier stage reports cover command copies and history workflows. The latest broad clipboard rerun was inconclusive and is not counted as passed.
 
 On October 7, browser automation rejected access to the existing localhost preview under its URL security policy. No workaround was attempted. Fresh visual/clipboard verification and cleanup of the synthetic October 6 combined-session record remain pending. User history was not modified in this resumed run.

@@ -20,6 +20,8 @@ README now describes accepted command evidence beside invalid configuration, the
 
 ## Pending checks
 
+Follow-up: browser access to the running HTTP tab became available. Fresh checks now pass, with one remaining Blocked item: isolated-profile clear-history confirmation. See browser-release-verification.md for per-check evidence and new screenshots. The earlier denial below is historical. Runtime source and the verified static bundle are unchanged; the refreshed source package includes current reports/screenshots.
+
 Browser automation was denied on October 7. No bypass or alternate browser workaround is used. Fresh visual, clipboard and native-history-control checks remain pending, with manual-release-checklist.md providing the fallback. Prior stage reports retain completed desktop/mobile/focus evidence; virtual DOM tests do not substitute for native browser layout or dialog behavior.
 
 No new logic defect was discovered during this pass. That conclusion is bounded by the automated scenarios and packaging checks; it is not an assertion that the app has no possible issues or that final v1.0 is complete.

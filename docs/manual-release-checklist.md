@@ -1,6 +1,6 @@
 # Final manual preview checklist
 
-Use synthetic examples only. Browser automation was blocked on October 7, so these fresh checks are pending, not passed. Existing October 6 desktop/mobile evidence is recorded in the stage reports.
+Use synthetic examples only. Fresh October 7 checks now pass as recorded in browser-release-verification.md, except clear-history confirmation in an isolated profile: that remains Blocked because the browser API has no isolated-profile creation capability. This checklist remains available for manual regression review. Complete step 6's confirm/reload check in a genuinely private profile containing only disposable samples.
 
 1. Open the local preview. At desktop width and 320–390px width, visit Dashboard, Network triage, History, Guides and Commands. Check readable text, focus outlines and no page-wide horizontal scrolling. The hop table may scroll inside its own region.
 2. Use Tab/Shift+Tab and Enter to navigate. Submit invalid IPv4 with /24: the IPv4 field should receive focus and explain its error. No session should save.

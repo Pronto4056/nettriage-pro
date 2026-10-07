@@ -1,6 +1,6 @@
 # Diagnostic QA matrix
 
-Updated October 7, 2026. Automated suite: 187 checks in 12 files. Browser evidence refers to completed October 6 checks; today's browser recheck was blocked by tool policy. Fixtures do not establish real network health or platform execution.
+Updated October 7, 2026. Automated suite: 187 checks in 12 files. Fresh browser checks now pass as recorded in browser-release-verification.md; isolated-profile clear-history confirmation remains Blocked. Fixtures do not establish real network health or platform execution.
 
 | Scenario                                 | Verified behavior                                         | Evidence                                    |
 | ---------------------------------------- | --------------------------------------------------------- | ------------------------------------------- |
@@ -23,4 +23,4 @@ Updated October 7, 2026. Automated suite: 187 checks in 12 files. Browser eviden
 | Hostile pasted text                      | Unsupported data through text boundaries                  | releaseScenarios.test.ts                    |
 | Desktop / mobile / keyboard              | Stage checks; 320px document without overflow             | stage reports; October 6 recheck            |
 
-Remaining: fresh browser/clipboard recheck, broader browser/accessibility coverage, clean-clone setup verification and final release packaging. Native dialog/layout behavior is not established by jsdom. No final v1.0 declaration yet.
+Clean-checkout setup/build/format, source/static packaging and fresh browser/clipboard checks are verified. Remaining: isolated-profile clear confirmation, broader browser/accessibility coverage and final release designation. Native dialog/layout behavior is not established by jsdom alone. No final v1.0 declaration yet.

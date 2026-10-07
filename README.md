@@ -2,7 +2,7 @@
 
 A browser-local, deterministic network troubleshooting application built to explain **what the evidence supports, what it cannot establish, and which test to run next**.
 
-**Status: local release review candidate, development version 0.1.0.** Selected English IPv4 diagnostics have automated release-QA coverage. Fresh visual checks remain pending; this is not a publicly released v1.0. See [release notes](docs/release-notes.md) and the [manual review checklist](docs/manual-release-checklist.md).
+**Status: local release review candidate, development version 0.1.0.** Automated and fresh desktop/mobile browser checks pass for the selected IPv4 scope. Isolated-profile clear-history confirmation remains pending; this is not a publicly released v1.0. See [browser verification](docs/browser-release-verification.md), [release notes](docs/release-notes.md) and the [manual review checklist](docs/manual-release-checklist.md).
 
 ## Motivation
 
@@ -84,9 +84,9 @@ Evidence parsing and modular rules feed findings. Invalid fields prevent saving;
 
 ## Screenshots
 
-![Dashboard](assets/dashboard.jpg)
+![Combined synthetic diagnostic evidence](assets/release-desktop-2026-10-07.jpg)
 
-Existing October 6 design screenshot from an earlier milestone. Later diagnostic examples appear in the [ping](docs/ping-verification.md), [DNS](docs/dns-verification.md) and [traceroute](docs/trace-verification.md) reports. These are historical screenshots, not a fresh October 7 visual verification.
+Fresh October 7 browser screenshot using synthetic data. Earlier screenshots in the [ping](docs/ping-verification.md), [DNS](docs/dns-verification.md) and [traceroute](docs/trace-verification.md) reports remain historical evidence.
 
 ## Testing
 

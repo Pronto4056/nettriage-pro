@@ -1,5 +1,9 @@
 # Development progress
 
+## October 7, 2026 — Remaining browser simulations
+
+Supported access to the running HTTP preview became available. Desktop/mobile pages, focus/keyboard, all 15 command copies, nine built-in examples, combined/invalid/malformed/conflicting evidence, stale results and history reload/reopen/delete pass. Ten marked synthetic records removed; original two sessions exactly preserved. Fresh screenshots and per-check report added. No product code issue found; reused 187-test clean-checkout evidence. Isolated-profile clear confirmation remains Blocked because browser API lacks that capability. Release package refreshed; license/publishing/deployment untouched.
+
 ## October 7, 2026 — Local release package
 
 Verified frozen-lockfile installation, 187 tests, type/build and formatting in a clean local clone. Fixed missing Git line-ending policy after the first Windows clone failed formatting; second fresh clone passes. Updated README accuracy, dated historical screenshots, release notes and manual browser checklist. Prepared source and verified static-build archives with checksums outside the repository. No license, publication or deployment performed. Browser automation remains blocked; final visual/native-control review is pending.
