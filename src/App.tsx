@@ -7,6 +7,7 @@ import { ConfigurationMap } from './components/ConfigurationMap';
 import { ConfirmClearHistory } from './components/ConfirmClearHistory';
 import { PingInput } from './components/PingInput';
 import { DnsInput } from './components/DnsInput';
+import { TraceInput } from './components/TraceInput';
 import { Guides, CommandReference } from './pages/Reference';
 const blank: Input = { ip: '', mask: '', gateway: '', dns: '', notes: '' };
 const example: Input = {
@@ -205,8 +206,8 @@ export function App() {
                 </article>
                 <article className="panel">
                   <span>Current milestone</span>
-                  <strong className="text-stat">DNS evidence</strong>
-                  <small>Traceroute parsing is next</small>
+                  <strong className="text-stat">Trace evidence</strong>
+                  <small>Release scenario QA is next</small>
                 </article>
               </div>
               <div className="section-head">
@@ -248,8 +249,8 @@ export function App() {
               <span className="eyebrow">01 / CONFIGURATION &amp; EVIDENCE</span>
               <h1>Build a clearer picture.</h1>
               <p className="intro">
-                Enter interface configuration, pasted ping or DNS evidence, or
-                both. Blank fields remain unknown.
+                Enter interface configuration or pasted ping, DNS and traceroute
+                evidence. Blank fields remain unknown.
               </p>
               <div className="triage-layout">
                 <form
@@ -332,6 +333,11 @@ export function App() {
                     onChange={(value) => edit('dnsOutput', value)}
                     error={result?.errors.dnsOutput}
                   />
+                  <TraceInput
+                    value={input.traceOutput ?? ''}
+                    onChange={(value) => edit('traceOutput', value)}
+                    error={result?.errors.traceOutput}
+                  />
                   <div className="actions">
                     <button className="primary" type="submit">
                       Analyze evidence ↗
@@ -361,7 +367,9 @@ export function App() {
                   <hr />
                   <p>
                     This build checks IPv4 configuration and selected English
-                    ping and DNS lookup samples. Traceroute parsing will follow.
+                    ping, DNS lookup and traceroute samples. Each finding
+                    describes what the pasted evidence supports and what remains
+                    unknown.
                   </p>
                   <button onClick={() => navigate('Commands')}>
                     Find a useful command →

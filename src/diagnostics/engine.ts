@@ -9,6 +9,8 @@ import { pingFindings } from './pingRules';
 import { PING_LIMIT } from '../evidence/ping';
 import { DNS_LIMIT } from '../evidence/dns';
 import { dnsFindings } from './dnsRules';
+import { TRACE_LIMIT, parseTrace, type TraceEvidence } from '../evidence/trace';
+import { traceFindings } from './traceRules';
 export type Confidence =
   'Confirmed' | 'Likely' | 'Possible' | 'Insufficient Evidence';
 export type Severity = 'info' | 'warning' | 'error';
@@ -29,12 +31,14 @@ export interface Input {
   notes: string;
   pingOutput?: string;
   dnsOutput?: string;
+  traceOutput?: string;
 }
 export interface Result {
   errors: Partial<Record<keyof Input, string>>;
   findings: Finding[];
   network?: ReturnType<typeof subnet>;
   category?: string;
+  trace?: TraceEvidence;
 }
 export function analyze(raw: Input): Result {
   const input: Input = {
@@ -45,6 +49,7 @@ export function analyze(raw: Input): Result {
     notes: raw.notes.trim(),
     pingOutput: (raw.pingOutput ?? '').trim(),
     dnsOutput: (raw.dnsOutput ?? '').trim(),
+    traceOutput: (raw.traceOutput ?? '').trim(),
   };
   const result: Result = { errors: {}, findings: [] };
   if ((raw.pingOutput?.length ?? 0) > PING_LIMIT)
@@ -52,6 +57,9 @@ export function analyze(raw: Input): Result {
       'Paste at most 20,000 characters of ping output.';
   if ((raw.dnsOutput?.length ?? 0) > DNS_LIMIT)
     result.errors.dnsOutput = 'Paste at most 20,000 characters of DNS output.';
+  if ((raw.traceOutput?.length ?? 0) > TRACE_LIMIT)
+    result.errors.traceOutput =
+      'Paste at most 20,000 characters of traceroute output.';
   const add = (
     id: string,
     title: string,
@@ -215,17 +223,23 @@ export function analyze(raw: Input): Result {
   result.findings.push(
     ...dnsFindings(input.dnsOutput!, input.dns, input.pingOutput),
   );
+  if (input.traceOutput) {
+    result.trace = parseTrace(input.traceOutput);
+    result.findings.push(...traceFindings(input.traceOutput));
+  }
   add(
     'missing-evidence',
     'Broader connectivity remains unverified',
     'info',
     'Insufficient Evidence',
-    input.dnsOutput
-      ? 'Pasted DNS evidence was evaluated; application and traceroute evidence were not.'
-      : input.pingOutput
-        ? 'Pasted ping evidence was evaluated; DNS and application evidence were not.'
-        : 'No command-output analysis has been performed.',
-    'Configuration, ICMP and DNS samples cannot establish complete internet or application health. Pasted evidence is user-supplied and may come from different interfaces or times.',
+    input.traceOutput
+      ? 'Pasted traceroute evidence was evaluated; application health remains unverified.'
+      : input.dnsOutput
+        ? 'Pasted DNS evidence was evaluated; application and traceroute evidence were not.'
+        : input.pingOutput
+          ? 'Pasted ping evidence was evaluated; DNS and application evidence were not.'
+          : 'No command-output analysis has been performed.',
+    'Configuration, ICMP, DNS and traceroute samples cannot establish complete internet or application health. Pasted evidence is user-supplied and may come from different interfaces or times.',
     'Compare gateway and numeric destination probes, then collect DNS lookup and intended-service evidence.',
   );
   return result;

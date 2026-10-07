@@ -1,4 +1,5 @@
 import type { Result } from '../diagnostics/engine';
+import { TraceTable } from './TraceTable';
 export function Findings({ result }: { result: Result }) {
   if (Object.keys(result.errors).length) return null;
   const warnings = result.findings.filter((f) => f.severity !== 'info').length;
@@ -13,7 +14,10 @@ export function Findings({ result }: { result: Result }) {
             {warnings
               ? 'Findings need review'
               : result.findings.some(
-                    (f) => f.id.startsWith('ping-') || f.id.startsWith('dns-'),
+                    (f) =>
+                      f.id.startsWith('ping-') ||
+                      f.id.startsWith('dns-') ||
+                      f.id.startsWith('trace-'),
                   )
                 ? 'Evidence analyzed'
                 : result.network
@@ -49,6 +53,7 @@ export function Findings({ result }: { result: Result }) {
           </div>
         </div>
       )}
+      {result.trace && <TraceTable trace={result.trace} />}
       {result.findings.map((f) => (
         <details
           className={`finding ${f.severity}`}

@@ -66,3 +66,11 @@ Reproduction: append an nslookup failure to a successful dig response, or paste 
 Expected: reject mixed or reversed output without claiming a successful DNS answer. Actual: initial dig validation ignored the foreign failure; nslookup scanning restarted address collection inside a reversed resolver block. Cause: incomplete format-boundary validation.
 
 Fix: reject nslookup failure markers in dig output and resolver blocks after answer blocks. Two regression tests failed before the fixes and passed afterward; independent review rechecked them. Full suite 131/131. Indented alias metadata and actual dig-header recognition also gained regression coverage.
+
+# Trace validation corrections — October 6, 2026
+
+Reproduction: paste responder hostname/address with an unclosed bracket/parenthesis or an unmatched closing delimiter; alternatively supply an RTT number that overflows finite numeric representation.
+
+Expected: unsupported malformed text produces insufficient-evidence findings and no confirmed destination. Actual: independently optional delimiter regexes accepted broken pairs, while RTT strings had no finite-number check.
+
+Fix: explicit bare-IPv4 or fully paired hostname/address alternatives in headers/responders; finite RTT validation for both formats. Four delimiter and one RTT regression cases failed before fixes, then passed. Reviewer independently rechecked malformed cases; full suite 167/167.

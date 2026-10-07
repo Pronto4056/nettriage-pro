@@ -1,5 +1,11 @@
 # Development progress
 
+## October 6, 2026 — Traceroute evidence milestone
+
+Implemented selected English IPv4 tracert/traceroute parsing, cautious modular findings, semantic hop table and three labeled simulations. Optional trace text persists and reopens alongside existing evidence. Silent hops and missing destinations remain inconclusive about router/host failure. Mobile table scrolls within its own region for readable headings.
+
+167 tests, type checking, production build and desktop/mobile workflows pass. Independent review identified malformed paired-delimiter handling; four regression cases failed before fixes. Nonfinite RTT validation also gained a red-to-green regression. Re-review confirmed corrections. Existing history preserved; only synthetic QA sessions removed. Full release scenario QA is next; no v1.0/public-release claim.
+
 ## October 6, 2026 — DNS evidence milestone
 
 Added selected English nslookup/dig IN A parsing and modular findings. Resolver/answer separation, canonical-name chains, missing-address answers, distinct DNS failure/timeout statuses, resolver discrepancies and cautious ping comparisons are now available. Optional DNS text survives local-history reopening; older sessions retain compatibility. Three labeled DNS fixtures are available in the form.
