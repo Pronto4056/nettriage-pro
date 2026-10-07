@@ -2,7 +2,7 @@
 
 A browser-local, deterministic network troubleshooting application built to explain **what the evidence supports, what it cannot establish, and which test to run next**.
 
-**Status: v0.1 foundation, actively developed.** Configuration diagnostics are implemented. Pasted command-output analysis is planned; this is not a completed v1.0 release.
+**Status: actively developed; configuration and ping evidence milestone.** Configuration diagnostics and English IPv4 ping interpretation are implemented. DNS and traceroute parsing remain planned; this is not a completed v1.0 release.
 
 ## Motivation
 
@@ -16,6 +16,7 @@ Network troubleshooting is often reduced to guesses after one failed ping. NetTr
 - Private, link-local/APIPA, loopback, multicast, reserved, documentation, shared, and selected special-purpose categories.
 - Gateway membership, host boundary, gateway/host collision, and unsuitable resolver address checks.
 - Findings with severity, confidence, evidence, meaning, and recommended next test.
+- Pasted English Windows/Linux/macOS IPv4 ping samples: target-matched echo replies, unreachable messages, packet statistics, average latency, conflicting-output checks and separate-run observations. Includes three labeled synthetic examples; no commands execute in the browser.
 - Up to 50 saved configuration snapshots, reopening, individual deletion, and clearing history.
 - Approved Redline Editorial interface: black-to-burgundy gradient, red accents, top navigation, editorial findings, labeled fields, visible keyboard focus, and responsive layouts.
 - Selectable conceptual host/subnet/gateway explanations and an accessible clear-history confirmation.
@@ -56,6 +57,8 @@ Form input → normalization → validation → IPv4 calculations
 
 - `src/network/ipv4.ts`: strict parsing, mask conversion, subnet arithmetic, category checks.
 - `src/diagnostics/engine.ts`: input/result contracts and deterministic configuration rules.
+- `src/evidence/ping.ts`: bounded ping parsing and sample consistency validation.
+- `src/diagnostics/pingRules.ts`: cautious ICMP findings independent of presentation.
 - `src/lib/history.ts`: versioned storage validation, cap, and failure reporting.
 - `src/components/Findings.tsx`: evidence-oriented result presentation.
 - `src/components/ConfigurationMap.tsx`: conceptual relationship explanations; no live network detection.
@@ -64,7 +67,7 @@ Form input → normalization → validation → IPv4 calculations
 - `src/data/commandWalkthrough.ts`: reviewed illustrative fixtures and historical execution summaries. Regenerate with `node scripts/build-command-walkthrough.mjs` after updating the command report, then format the generated source.
 - `tests/`: mathematical, rule, persistence, and rendering regression tests.
 
-The next increment inserts evidence parsing and modular command rules before findings. The UI consumes results and does not contain networking calculations.
+Evidence parsing and modular ping rules feed findings. The next increments add DNS and traceroute parsing. The UI consumes results and does not contain networking calculations.
 
 ## Example workflow
 
@@ -82,16 +85,16 @@ The next increment inserts evidence parsing and modular command rules before fin
 
 Run `pnpm test` or `npm test`. The initial suite covers malformed IPs/masks, unsigned addressing, prefix boundaries, host ranges, special-purpose categories, APIPA, gateway membership across octet boundaries, empty evidence, invalid inputs, storage corruption/denial, persistence round-trips, the history cap, and misleading empty-state prevention.
 
-The current suite has 60 passing checks. See [foundation verification](docs/verification.md), [Redline implementation verification](docs/redline-verification.md), [command walkthrough](docs/command-verification.md), [QA matrix](docs/test-matrix.md), and [bug log](docs/bugs.md). Passing unit tests do not establish real-world network reliability or full v1.0 coverage.
+The current suite has 93 passing checks. See [ping verification](docs/ping-verification.md), [foundation verification](docs/verification.md), [Redline implementation verification](docs/redline-verification.md), [command walkthrough](docs/command-verification.md), [QA matrix](docs/test-matrix.md), and [bug log](docs/bugs.md). Passing unit tests do not establish real-world network reliability or full v1.0 coverage.
 
 ## Limitations and privacy
 
 - No live network probes, interface discovery, command execution, packet capture, or backend.
-- This build accepts configuration and notes only. Ping, DNS, traceroute, packet-loss and routing evidence parsers are not implemented yet.
+- Ping parsing supports selected English Windows/Linux/macOS IPv4 formats, at most 20 runs and 20,000 characters. IPv6, localized output, duplicate/damaged packets, timestamp-prefixed lines and uncommon variants may remain uninterpreted. DNS, traceroute and routing parsers are not implemented yet.
 - Notes are retained as context and never used as confirmed diagnostic evidence.
 - `Public candidate` means outside the recognized special-purpose ranges; it does not establish assignment, global routing, or reachability. Special-purpose categories group blocks with differing routing policies; this is not a complete policy engine for the IANA registry.
 - /31 assumes point-to-point usage; /32 gateway exceptions need routing evidence.
-- History is browser-local, capped at 50, and can be removed by clearing browser storage. User-entered notes can contain sensitive information; delete sessions when no longer needed. No application requests transmit entered evidence.
+- History is browser-local, capped at 50, and can be removed by clearing browser storage. Notes and raw pasted ping text can contain sensitive information; redact before pasting and delete sessions when no longer needed. No application requests transmit entered evidence. Older configuration-only history remains compatible.
 - Corrupt history is preserved and reported; saving is blocked rather than silently replacing it. A dedicated recovery flow is planned.
 - No public release, hosting, or software license has been selected. Dependency licenses remain their respective authors'.
 

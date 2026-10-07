@@ -5,6 +5,7 @@ import { readHistory, persistHistory, type Session } from './lib/history';
 import { Findings } from './components/Findings';
 import { ConfigurationMap } from './components/ConfigurationMap';
 import { ConfirmClearHistory } from './components/ConfirmClearHistory';
+import { PingInput } from './components/PingInput';
 import { Guides, CommandReference } from './pages/Reference';
 const blank: Input = { ip: '', mask: '', gateway: '', dns: '', notes: '' };
 const example: Input = {
@@ -107,7 +108,7 @@ export function App() {
     setInput(session.input);
     setResult(analyze(session.input));
     setStatus(
-      'Viewing a saved configuration. Connectivity remains unverified.',
+      'Viewing a saved session. Findings recalculated from the supplied configuration and evidence.',
     );
     navigate('Network triage');
   }
@@ -203,8 +204,8 @@ export function App() {
                 </article>
                 <article className="panel">
                   <span>Current milestone</span>
-                  <strong className="text-stat">Foundation</strong>
-                  <small>Command parsing is next</small>
+                  <strong className="text-stat">Ping evidence</strong>
+                  <small>DNS and traceroute parsing are next</small>
                 </article>
               </div>
               <div className="section-head">
@@ -243,11 +244,11 @@ export function App() {
           )}
           {page === 'Network triage' && (
             <>
-              <span className="eyebrow">01 / CONFIGURATION TRIAGE</span>
+              <span className="eyebrow">01 / CONFIGURATION &amp; EVIDENCE</span>
               <h1>Build a clearer picture.</h1>
               <p className="intro">
-                Enter the configuration from your active interface. Blank fields
-                remain unknown.
+                Enter interface configuration, pasted ping evidence, or both.
+                Blank fields remain unknown.
               </p>
               <div className="triage-layout">
                 <form
@@ -320,9 +321,14 @@ export function App() {
                     onChange={(e) => edit('notes', e.target.value)}
                     placeholder="What happened, and what have you already tested?"
                   />
+                  <PingInput
+                    value={input.pingOutput ?? ''}
+                    onChange={(value) => edit('pingOutput', value)}
+                    error={result?.errors.pingOutput}
+                  />
                   <div className="actions">
                     <button className="primary" type="submit">
-                      Analyze configuration ↗
+                      Analyze evidence ↗
                     </button>
                     <button type="button" onClick={() => start()}>
                       Reset
@@ -348,8 +354,8 @@ export function App() {
                   </p>
                   <hr />
                   <p>
-                    This initial build checks IPv4 configuration. Pasted ping,
-                    DNS, and traceroute analysis will follow.
+                    This build checks IPv4 configuration and pasted English IPv4
+                    ping samples. DNS and traceroute parsing will follow.
                   </p>
                   <button onClick={() => navigate('Commands')}>
                     Find a useful command →
@@ -383,8 +389,8 @@ export function App() {
                 />
               )}
               <p className="intro">
-                Up to 50 configuration snapshots. Reopening recalculates
-                findings with the current engine.
+                Up to 50 configuration and evidence snapshots. Reopening
+                recalculates findings with the current engine.
               </p>
               {sessions.length ? (
                 <div className="panel session-list">

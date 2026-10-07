@@ -1,5 +1,13 @@
 # Development progress
 
+## October 6, 2026 — Ping evidence milestone
+
+Implemented the next incremental evidence flow: English IPv4 ping parsing, cautious modular findings, optional pasted-output form field, three labeled synthetic scenarios, and backward-compatible local-history retention/reopening. Existing configuration checks and approved Redline design remain available. DNS and traceroute parsing are next; this milestone is not v1.0 completion.
+
+Ruling: implemented ping first as a reviewable increment of the planned evidence subsystem, under the user's routine-development authority. No new dependencies, network probes, backend or deployment changes. Raw pasted evidence stays in local history and the form discloses that behavior.
+
+93 tests pass. Browser QA verified packet loss, unreachable errors, unsupported text, stale-result clearing, persistence/reload/reopening and mobile layout. Independent review identified three inconsistent-output cases; five regression cases failed before validation fixes and then passed. See ping-verification.md.
+
 ## October 6, 2026 — Independent foundation
 
 Completed the initial local-project task: inspected the workspace and available context; documented unavailable Base44 source/reference assets; selected React/TypeScript/Vite/Vitest; created an independent repository, development scripts, dependency lock, responsive application shell, networking/persistence module contracts, tests, screenshots, and documentation.

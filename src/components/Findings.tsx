@@ -6,13 +6,17 @@ export function Findings({ result }: { result: Result }) {
     <section aria-labelledby="results-title" className="results">
       <div className="section-head">
         <div>
-          <span className="eyebrow">ANALYSIS / CONFIGURATION</span>
+          <span className="eyebrow">
+            ANALYSIS / CONFIGURATION &amp; EVIDENCE
+          </span>
           <h2 id="results-title">
             {warnings
-              ? 'Configuration needs review'
-              : result.network
-                ? 'Calculations complete'
-                : 'More evidence needed'}
+              ? 'Findings need review'
+              : result.findings.some((f) => f.id.startsWith('ping-'))
+                ? 'Evidence analyzed'
+                : result.network
+                  ? 'Calculations complete'
+                  : 'More evidence needed'}
           </h2>
         </div>
         <span className="badge">{warnings} review items</span>

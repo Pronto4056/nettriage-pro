@@ -48,3 +48,13 @@ An empty CSS import emitted a build warning. Removed the unused import and reran
 - Cause: stored input was validated for known keys but returned with all unknown keys.
 - Fix: history loading constructs a clean input from exactly five validated fields; engine normalization also reads only known fields.
 - Regression: engine tolerates extra null input; history drops unknown properties. Both failed before correction and passed afterward.
+
+# Ping validation corrections — October 6, 2026
+
+Reproduction: paste a Unix run with a statistics heading for a different address, a Windows sample with more timeout lines than lost packets, or a latency average exceeding the reported maximum.
+
+Expected: inconsistent samples produce insufficient-evidence findings and suppress confirmed measurements.
+
+Actual: the initial parser accepted those contradictions. Cause: validation checked Windows heading/count arithmetic and only the numeric average; it did not compare Unix headings, timeout totals or latency tuple ordering.
+
+Fix: compare Unix statistics headings with the target or original hostname, bound Windows observed outcomes by packet totals, and enforce minimum ≤ average ≤ maximum. Five failing regression cases in ping.test.ts then passed; full suite 93/93.

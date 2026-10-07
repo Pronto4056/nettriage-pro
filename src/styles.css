@@ -878,3 +878,19 @@ footer span {
     gap: 20px;
   }
 }
+.ping-input {
+  border-top: 1px solid var(--border);
+  margin-top: 24px;
+  padding-top: 24px;
+}
+.ping-input textarea {
+  font-family: Consolas, monospace;
+  font-size: 0.85rem;
+}
+.simulation-controls {
+  margin: 12px 0 24px;
+}
+.simulation-controls summary {
+  cursor: pointer;
+  padding: 12px 0;
+}

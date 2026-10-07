@@ -26,7 +26,10 @@ export function readHistory(storage: Pick<Storage, 'getItem'>): {
           s.input &&
           ['ip', 'mask', 'gateway', 'dns', 'notes'].every(
             (k) => typeof s.input[k as keyof Input] === 'string',
-          ),
+          ) &&
+          (s.input.pingOutput === undefined ||
+            (typeof s.input.pingOutput === 'string' &&
+              s.input.pingOutput.length <= 20000)),
       )
     )
       throw Error('Invalid history');
@@ -40,6 +43,9 @@ export function readHistory(storage: Pick<Storage, 'getItem'>): {
           gateway: s.input.gateway,
           dns: s.input.dns,
           notes: s.input.notes,
+          ...(s.input.pingOutput !== undefined
+            ? { pingOutput: s.input.pingOutput }
+            : {}),
         },
       })),
     };

@@ -5,6 +5,8 @@ import {
   sameSubnet,
   subnet,
 } from '../network/ipv4';
+import { pingFindings } from './pingRules';
+import { PING_LIMIT } from '../evidence/ping';
 export type Confidence =
   'Confirmed' | 'Likely' | 'Possible' | 'Insufficient Evidence';
 export type Severity = 'info' | 'warning' | 'error';
@@ -23,6 +25,7 @@ export interface Input {
   gateway: string;
   dns: string;
   notes: string;
+  pingOutput?: string;
 }
 export interface Result {
   errors: Partial<Record<keyof Input, string>>;
@@ -37,8 +40,12 @@ export function analyze(raw: Input): Result {
     gateway: raw.gateway.trim(),
     dns: raw.dns.trim(),
     notes: raw.notes.trim(),
+    pingOutput: (raw.pingOutput ?? '').trim(),
   };
   const result: Result = { errors: {}, findings: [] };
+  if ((raw.pingOutput?.length ?? 0) > PING_LIMIT)
+    result.errors.pingOutput =
+      'Paste at most 20,000 characters of ping output.';
   const add = (
     id: string,
     title: string,
@@ -198,14 +205,17 @@ export function analyze(raw: Input): Result {
       'This is not an ordinary unicast resolver address. Loopback resolvers, when supplied, can be intentional.',
       'Check the configured resolver and perform a lookup against it.',
     );
+  result.findings.push(...pingFindings(input.pingOutput!, input.gateway));
   add(
     'missing-evidence',
-    'Connectivity has not been established',
+    'Broader connectivity remains unverified',
     'info',
     'Insufficient Evidence',
-    'No command-output analysis has been performed.',
-    'This foundation checks configuration only. It cannot establish gateway reachability, DNS resolution, packet loss, or routing health.',
-    'Run the suggested commands locally. Command-output parsing is the next development milestone.',
+    input.pingOutput
+      ? 'Pasted ping evidence was evaluated; DNS and application evidence were not.'
+      : 'No command-output analysis has been performed.',
+    'Configuration and ICMP samples cannot establish complete internet, DNS or application health. Pasted evidence is user-supplied and may come from different interfaces or times.',
+    'Compare gateway and numeric destination probes, then collect DNS lookup and intended-service evidence.',
   );
   return result;
 }
