@@ -74,3 +74,7 @@ Reproduction: paste responder hostname/address with an unclosed bracket/parenthe
 Expected: unsupported malformed text produces insufficient-evidence findings and no confirmed destination. Actual: independently optional delimiter regexes accepted broken pairs, while RTT strings had no finite-number check.
 
 Fix: explicit bare-IPv4 or fully paired hostname/address alternatives in headers/responders; finite RTT validation for both formats. Four delimiter and one RTT regression cases failed before fixes, then passed. Reviewer independently rechecked malformed cases; full suite 167/167.
+
+# Windows clean-checkout formatting — October 7, 2026
+
+Reproduction: clone the repository with Windows automatic CRLF conversion, install the frozen lockfile, and run format:check. Expected: formatting passes after checkout. Actual: Prettier reports line-ending differences across 58 files, while tests/build pass. Cause: no repository line-ending policy, while Prettier expects LF. Fix: .gitattributes requests LF for detected text and explicitly preserves binary images/archives. Regression verification is a fresh clone and the documented format:check command.

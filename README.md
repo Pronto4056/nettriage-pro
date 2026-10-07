@@ -2,7 +2,7 @@
 
 A browser-local, deterministic network troubleshooting application built to explain **what the evidence supports, what it cannot establish, and which test to run next**.
 
-**Status: actively developed; configuration, ping, DNS and traceroute evidence milestone.** Selected English IPv4 command-output interpretation is implemented. Full release scenario QA remains; this is not a completed v1.0 release.
+**Status: local release review candidate, development version 0.1.0.** Selected English IPv4 diagnostics have automated release-QA coverage. Fresh visual checks remain pending; this is not a publicly released v1.0. See [release notes](docs/release-notes.md) and the [manual review checklist](docs/manual-release-checklist.md).
 
 ## Motivation
 
@@ -19,7 +19,7 @@ Network troubleshooting is often reduced to guesses after one failed ping. NetTr
 - Pasted English Windows/Linux/macOS IPv4 ping samples: target-matched echo replies, unreachable messages, packet statistics, average latency, conflicting-output checks and separate-run observations. Includes three labeled synthetic examples; no commands execute in the browser.
 - Selected English nslookup/dig IN A evidence: resolver/answer separation, canonical-name chains, NXDOMAIN, SERVFAIL, REFUSED, timeout and no-address answers. Cautious comparison with matching ICMP replies; three labeled DNS simulations.
 - Selected English IPv4 tracert/traceroute evidence with a semantic hop table, responder/RTT/star observations, selected ICMP failure annotations, cautious destination interpretation and three labeled trace simulations.
-- Up to 50 saved configuration snapshots, reopening, individual deletion, and clearing history.
+- Up to 50 saved configuration/evidence snapshots, reopening, individual deletion, and clearing history.
 - Approved Redline Editorial interface: black-to-burgundy gradient, red accents, top navigation, editorial findings, labeled fields, visible keyboard focus, and responsive layouts.
 - Selectable conceptual host/subnet/gateway explanations and an accessible clear-history confirmation.
 - Troubleshooting guides and copyable Windows/Linux/macOS command references, with 15 expandable simulated-output walkthroughs and seven dated Windows observations.
@@ -52,9 +52,10 @@ The pnpm lockfile is the authoritative dependency lock. npm installation resolve
 ## Architecture
 
 ```text
-Form input → normalization → validation → IPv4 calculations
-          → configuration rules → structured findings → React presentation
-                                ↘ local session snapshots
+Form input → normalization → field validation
+          → accepted configuration → IPv4 calculations / configuration rules
+          → accepted command text → parsers / evidence rules
+          → structured findings → React presentation / local session snapshots
 ```
 
 - `src/network/ipv4.ts`: strict parsing, mask conversion, subnet arithmetic, category checks.
@@ -71,7 +72,7 @@ Form input → normalization → validation → IPv4 calculations
 - `src/data/commandWalkthrough.ts`: reviewed illustrative fixtures and historical execution summaries. Regenerate with `node scripts/build-command-walkthrough.mjs` after updating the command report, then format the generated source.
 - `tests/`: mathematical, rule, persistence, and rendering regression tests.
 
-Evidence parsing and modular ping/DNS/traceroute rules feed findings. The next stage is comprehensive release scenario QA. The UI consumes results and does not contain networking calculations.
+Evidence parsing and modular rules feed findings. Invalid fields prevent saving; accepted command evidence can still be interpreted independently. The UI consumes results and does not contain networking calculations.
 
 ## Example workflow
 
@@ -84,6 +85,8 @@ Evidence parsing and modular ping/DNS/traceroute rules feed findings. The next s
 ## Screenshots
 
 ![Dashboard](assets/dashboard.jpg)
+
+Existing October 6 design screenshot from an earlier milestone. Later diagnostic examples appear in the [ping](docs/ping-verification.md), [DNS](docs/dns-verification.md) and [traceroute](docs/trace-verification.md) reports. These are historical screenshots, not a fresh October 7 visual verification.
 
 ## Testing
 
