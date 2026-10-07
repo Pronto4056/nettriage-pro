@@ -19,7 +19,7 @@ Invalid forms focus the first marked field. Command-only history labels are accu
 
 No live probes, backend, telemetry or automatic command execution. Selected English IPv4 formats only; custom/localized/IPv6 and documented uncommon variants remain unsupported. Pasted evidence is not authenticated, and successful samples do not establish complete network or application health. Raw notes/evidence stay in browser-local storage; redact sensitive details before pasting.
 
-Fresh October 7 desktop/mobile, keyboard, clipboard, evidence and history checks pass; see browser-release-verification.md and the new screenshots. Clear-history confirmation in an isolated profile remains Blocked: the API offers no isolated-profile creation. Use manual-release-checklist.md for that final native check. Existing October 6 screenshots remain dated historical evidence.
+Fresh October 7 desktop/mobile, keyboard, clipboard, evidence and history checks pass. Isolated-profile clearing passed by user report after the private-window walkthrough; the agent did not inspect that profile. See browser-release-verification.md and v1-readiness-summary.md.
 
 Licensing, public publication and deployment are reserved for user approval. Source and static build archives are review artifacts; no remote repository, PR or hosting change is implied.
 
