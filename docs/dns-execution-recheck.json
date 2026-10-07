@@ -1,0 +1,20 @@
+{
+  "runAtUtc": "2026-10-07T01:06:14.0230308Z",
+  "platform": "Windows",
+  "privacy": "Raw output discarded; saved metrics contain no local addresses, hostnames, MACs or process IDs.",
+  "results": [
+    {
+      "id": "nslookup",
+      "mode": "Actual Windows execution",
+      "command": "nslookup -timeout=2 -retry=1 example.com",
+      "completed": true,
+      "exitCode": 0,
+      "durationMs": 190,
+      "metrics": {
+        "queryNameInAnswer": true,
+        "timeoutMessages": 0
+      },
+      "summary": "Queried example.com through the configured resolver; resolver identity and answer addresses not saved."
+    }
+  ]
+}

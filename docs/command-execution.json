@@ -1,0 +1,98 @@
+{
+  "runAtUtc": "2026-10-07T01:03:47.9272480Z",
+  "platform": "Windows",
+  "privacy": "Raw output discarded; saved metrics contain no local addresses, hostnames, MACs or process IDs.",
+  "results": [
+    {
+      "id": "ipconfig",
+      "mode": "Actual Windows execution",
+      "command": "ipconfig /all",
+      "completed": true,
+      "exitCode": 0,
+      "durationMs": 120,
+      "metrics": {
+        "ipv4Fields": 1
+      },
+      "summary": "Interface configuration output returned; hostnames, MACs, addresses and resolver details not saved."
+    },
+    {
+      "id": "ping",
+      "mode": "Actual Windows execution",
+      "command": "ping -4 -n 4 -w 1000 1.1.1.1",
+      "completed": true,
+      "exitCode": 0,
+      "durationMs": 3087,
+      "metrics": {
+        "sent": 4,
+        "received": 4,
+        "lost": 0,
+        "lossPercent": 0,
+        "echoReplyLines": 4
+      },
+      "summary": "Bounded ICMP sample to public 1.1.1.1; this does not test the example gateway 192.168.1.1."
+    },
+    {
+      "id": "tracert",
+      "mode": "Actual Windows execution",
+      "command": "tracert -4 -d -h 8 -w 500 1.1.1.1",
+      "completed": true,
+      "exitCode": 0,
+      "durationMs": 8228,
+      "metrics": {
+        "hopRows": 8,
+        "timeoutRows": 0,
+        "destinationSeen": false
+      },
+      "summary": "At most eight TTL steps. Missing destination in this bounded trace is not a routing-failure verdict."
+    },
+    {
+      "id": "nslookup",
+      "mode": "Actual Windows execution",
+      "command": "nslookup -timeout=2 -retry=1 example.com",
+      "completed": true,
+      "exitCode": 0,
+      "durationMs": 10124,
+      "metrics": {
+        "queryNameInAnswer": false,
+        "timeoutMessages": 5
+      },
+      "summary": "Queried example.com through the configured resolver; resolver identity and answer addresses not saved."
+    },
+    {
+      "id": "route",
+      "mode": "Actual Windows execution",
+      "command": "route print",
+      "completed": true,
+      "exitCode": 0,
+      "durationMs": 82,
+      "metrics": {
+        "ipv4RouteTable": true
+      },
+      "summary": "Routing table listing returned; interface identities and route destinations omitted."
+    },
+    {
+      "id": "arp",
+      "mode": "Actual Windows execution",
+      "command": "arp -a",
+      "completed": true,
+      "exitCode": 0,
+      "durationMs": 66,
+      "metrics": {
+        "neighborRows": 10
+      },
+      "summary": "Neighbor cache inspected; all addresses and MAC identifiers omitted. Empty caches are valid."
+    },
+    {
+      "id": "netstat",
+      "mode": "Actual Windows execution",
+      "command": "netstat -ano",
+      "completed": true,
+      "exitCode": 0,
+      "durationMs": 50,
+      "metrics": {
+        "socketRows": 154
+      },
+      "summary": "Socket listing returned; endpoints and process IDs omitted."
+    }
+  ]
+}
