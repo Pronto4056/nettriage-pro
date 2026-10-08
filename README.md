@@ -1,5 +1,7 @@
 # NetTriage Pro
 
+Created by [Ahnaf Amin Pranto](https://github.com/Pronto4056), with AI coding assistance and iterative design, implementation, and verification review.
+
 A browser-local, deterministic network troubleshooting application built to explain **what the evidence supports, what it cannot establish, and which test to run next**.
 
 **Status: verified local release candidate, development version 0.1.0.** Automated and desktop/mobile checks pass for the selected IPv4 scope; the final isolated-profile clear check passed by user report. Final release designation and publication await approval. See [readiness summary](docs/v1-readiness-summary.md), [browser verification](docs/browser-release-verification.md) and [release notes](docs/release-notes.md).
